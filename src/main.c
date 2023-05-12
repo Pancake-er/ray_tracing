@@ -1,5 +1,5 @@
 #include <image_maker.h>
-#include <ray_trace.h>
+#include <render.h>
 #include <vector3f.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -23,12 +23,12 @@ int main() {
         exit(1);
     }
 
-    struct Sphere sphere = ray_trace_sphere_init(vector3f_init(50, 50, 10), 40);
+    struct Sphere sphere = render_sphere_init(vector3f_init(50, 50, 10), 40);
     // Orthographic raycast for every pixel on screen.
     for (int i = 0; i < width; i++) {
         for (int j = 0; j < height; j++) {
             struct RayResults results 
-                = ray_trace_cast(ray_trace_ray_init(vector3f_init(i, j, 0), 
+                = render_cast(render_ray_init(vector3f_init(i, j, 0), 
                 vector3f_init(0, 0, 1)), sphere);
             if (results.hit) {
                 set_pixel(data, i, j, width, 255, 255, 255);
@@ -38,8 +38,8 @@ int main() {
             }
         }
     }
-    // Put frame buffer into a ppm image at ./res/output.ppm.
-    image_maker_ppm("./output/image.ppm", width, height, 255, data, data_size);
+    // Put frame buffer into a ppm image at ./output/image.ppm.
+    image_maker_ppm("image.ppm", width, height, 255, data, data_size);
 
     free(data);
 }

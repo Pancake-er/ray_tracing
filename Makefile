@@ -1,6 +1,6 @@
 CC=gcc
-CFLAGS=-I include -o example.out 
+CFLAGS=-I include -o render.out 
 CLIBS=-lm
 
 make: 
-	$(CC) $(CFLAGS) src/main.c src/image_maker.c src/ray_trace.c src/vector3f.c src/vector2f.c $(CLIBS)
+	$(CC) $(CFLAGS) src/main.c src/image_maker.c src/render.c src/vector3f.c src/vector2f.c $(CLIBS)

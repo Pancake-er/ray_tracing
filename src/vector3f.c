@@ -20,7 +20,7 @@ struct Vector3f vector3f_add(struct Vector3f vector1, struct Vector3f vector2) {
     vector1.z += vector2.z;
     return vector1;
 }
-struct Vector3f vector3f_subtract(struct Vector3f vector1, 
+struct Vector3f vector3f_sub(struct Vector3f vector1, 
     struct Vector3f vector2) 
 {
     vector1.x -= vector2.x;

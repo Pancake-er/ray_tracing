@@ -17,7 +17,7 @@ struct Vector2f vector2f_add(struct Vector2f vector1, struct Vector2f vector2) {
     vector1.y += vector2.y;
     return vector1;
 }
-struct Vector2f vector2f_subtract(struct Vector2f vector1, 
+struct Vector2f vector2f_sub(struct Vector2f vector1, 
     struct Vector2f vector2) 
 {
     vector1.x -= vector2.x;
