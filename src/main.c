@@ -20,22 +20,43 @@ int main() {
     unsigned char *data = malloc(data_size);
     if (data == NULL) {
         printf("Failed to allocate memory");       
-        exit(1);
+        exit(EXIT_FAILURE);
     }
 
-    struct Sphere sphere = render_sphere_init(vector3f_init(50, 50, 10), 40);
-    // Orthographic raycast for every pixel on screen.
+    struct Camera camera = render_camera_init(vector3f_init(0.0f, 0.0f, 0.0f), 
+        vector3f_init(0.0f, 0.0f, 0.0f), 60.0f, width);
+    // Three sphere with the same radius, but one is closer.
+    struct Sphere spheres[3] = {
+        render_sphere_init(vector3f_init(20.0f, 20.0f, 150.0f), 15.0f, 
+            render_rgb_init(255.0f, 0.0f, 0.0f)),
+        render_sphere_init(vector3f_init(70.0f, 70.0f, 30.0f), 15.0f, 
+            render_rgb_init(0.0f, 0.0f, 255.0f)),
+        render_sphere_init(vector3f_init(70.0f, 70.0f, 150.0f), 15.0f, 
+            render_rgb_init(0.0f, 255.0f, 0.0f)),
+    };
+    // Perspective raycast for every pixel on screen.
     for (int i = 0; i < width; i++) {
         for (int j = 0; j < height; j++) {
-            struct RayResults results 
-                = render_cast(render_ray_init(vector3f_init(i, j, 0), 
-                vector3f_init(0, 0, 1)), sphere);
-            if (results.hit) {
-                set_pixel(data, i, j, width, 255, 255, 255);
+            // Determine the closest sphere color for this ray or set to black.
+            struct RayResults closest_results;
+            closest_results.hit = false;
+            closest_results.distance = 999999999.0f;
+            closest_results.color = render_rgb_init(0.0f, 0.0f, 0.0f);
+            // Length of spheres[].
+            for (int k = 0; k < 3; k++) {
+                struct RayResults results
+                    = render_cast(render_ray_init(vector3f_init(i, j, 0), 
+                    render_pixel_direction(camera, vector2f_init(i - 50, 
+                    j - 50))), spheres[k]);
+                if (results.hit && results.distance < closest_results.distance) {
+                    closest_results = results;
+                }
             }
-            else {
-                set_pixel(data, i, j, width, 0, 0, 0);
-            }
+            // Multiplied for shading effect. Temporary solution.
+            set_pixel(data, i, j, width, closest_results.color.red 
+                * (10 / closest_results.distance), closest_results.color.green 
+                * (10 / closest_results.distance), closest_results.color.blue 
+                * (10 / closest_results.distance)); 
         }
     }
     // Put frame buffer into a ppm image at ./output/image.ppm.

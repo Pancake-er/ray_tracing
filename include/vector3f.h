@@ -13,5 +13,7 @@ struct Vector3f vector3f_sub(struct Vector3f vector1,
     struct Vector3f vector2);
 float vector3f_dot(struct Vector3f vector1, struct Vector3f vector2);
 float vector3f_distance(struct Vector3f vector1, struct Vector3f vector2);
+struct Vector3f vector3f_normalize(struct Vector3f vector);
+float vector3f_magnitude(struct Vector3f vector);
 
 #endif

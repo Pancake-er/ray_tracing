@@ -12,5 +12,7 @@ struct Vector2f vector2f_sub(struct Vector2f vector1,
     struct Vector2f vector2);
 float vector2f_dot(struct Vector2f vector1, struct Vector2f vector2);
 float vector2f_distance(struct Vector2f vector1, struct Vector2f vector2);
+float vector2f_magnitude(struct Vector2f vector);
+struct Vector2f vector2f_normalize(struct Vector2f vector);
 
 #endif

@@ -36,3 +36,13 @@ float vector3f_distance(struct Vector3f vector1, struct Vector3f vector2) {
     return sqrt(pow(vector1.x - vector2.x, 2) + pow(vector1.y - vector2.y, 2) 
         + pow(vector1.z - vector2.z, 2));
 }
+float vector3f_magnitude(struct Vector3f vector) {
+    return sqrt(pow(vector.x, 2) + pow(vector.y, 2) + pow(vector.z, 2));
+}
+struct Vector3f vector3f_normalize(struct Vector3f vector) {
+    float magnitude = vector3f_magnitude(vector);
+    vector.x /= magnitude;
+    vector.y /= magnitude;
+    vector.z /= magnitude;
+    return vector;
+}
